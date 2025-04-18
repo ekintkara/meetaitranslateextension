@@ -1,0 +1,18 @@
+{
+  "name": "Uğur",
+  "title": "Senior Backend Developer",
+  "experience": "5 years",
+  "skills": ["Node.js", ".NET", "PostgreSQL", "Docker"],
+  "language": "English B1",
+  "goals": "To work in an international environment and improve my skills",
+  "experience_details": {
+    "current_role": "Backend Team Lead",
+    "achievements": [
+      "Led a team of 4 developers",
+      "Improved system performance by 40%",
+      "Implemented microservices architecture"
+    ],
+    "preferred_work_style": "Agile, collaborative environment",
+    "interests": ["System Design", "Cloud Architecture", "Team Leadership"]
+  }
+}

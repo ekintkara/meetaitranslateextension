@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Meet Translator Assistant",
+  "version": "1.0",
+  "description": "Captures Google Meet audio, transcribes, translates, and suggests responses",  
+  "permissions": [
+    "tabCapture",
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs",
+    "windows",
+    "notifications"
+  ],  
+  "host_permissions": [
+    "https://meet.google.com/*",
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon16.png",
+      "64": "icons/icon16.png"
+    }
+  },
+  "content_scripts": [{
+    "matches": ["https://meet.google.com/*"],
+    "js": ["contentScript.js"]
+  }],
+  "commands": {
+    "close_popup": {
+      "suggested_key": {
+        "default": "Alt+W"
+      },
+      "description": "Close the translator popup"
+    }
+  },
+  "web_accessible_resources": [{
+    "resources": ["icons/*"],
+    "matches": ["https://meet.google.com/*"]
+  }]
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Meet Translator Assistant</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      width: 400px;
+      height: 500px;
+      padding: 16px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      transition: all 0.3s ease;
+      min-width: 350px;
+      min-height: 450px;
+      position: relative;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    .close-button:hover {
+      transform: scale(1.1);
+      background-color: #d32f2f;
+    }
+
+    .close-button i {
+      font-size: 18px;
+    }
+
+    .section {
+      margin-bottom: 16px;
+      padding: 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+    }
+
+    .section-title i {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+
+    .content {
+      min-height: 50px;
+      white-space: pre-wrap;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #444;
+      transition: all 0.3s ease;
+      padding: 8px;
+      border-radius: 4px;
+      background: #f8f9fa;
+    }
+
+    #controls {
+      margin-bottom: 20px;
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button i {
+      font-size: 18px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    button:not(:disabled):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    #startCapture {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #startCapture:not(:disabled):hover {
+      background-color: #45a049;
+    }
+
+    #stopCapture {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #stopCapture:not(:disabled):hover {
+      background-color: #e53935;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .status.warning {
+      background-color: #fff3e0;
+      color: #f57c00;
+      border: 1px solid #ffe0b2;
+    }
+
+    .status.recording {
+      background-color: #e8f5e9;
+      color: #4caf50;
+      border: 1px solid #c8e6c9;
+    }
+
+    .status.stopped {
+      background-color: #f5f5f5;
+      color: #666;
+      border: 1px solid #e0e0e0;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .recording-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #4caf50;
+      margin-right: 8px;
+      animation: pulse 1.5s infinite;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .shake {
+      animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+  </style>
+</head>
+<body>
+  <button class="close-button" id="closeButton">
+    <i class="material-icons">close</i>
+  </button>
+  <div id="controls">
+    <button id="startCapture">
+      <i class="material-icons">mic</i>
+      Start Capture
+    </button>
+    <button id="stopCapture">
+      <i class="material-icons">stop</i>
+      Stop Capture
+    </button>
+    <span class="status" id="status">
+      <i class="material-icons" style="margin-right: 4px; font-size: 16px;">info</i>
+      Checking for Meet tabs...
+    </span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="material-icons">record_voice_over</i>
+      [ENGLISH]
+    </div>
+    <div class="content" id="original"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="material-icons">translate</i>
+      [TURKISH]
+    </div>
+    <div class="content" id="translation"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <i class="material-icons">psychology</i>
+      [SUGGESTION]
+    </div>
+    <div class="content" id="suggestion"></div>
+  </div>
+
+  <script src="translations.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
